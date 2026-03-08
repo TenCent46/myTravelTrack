@@ -1,6 +1,8 @@
 import { sql } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/summary — dashboard data
 export async function GET() {
   // Phase+category summary of actual spending (Kenji only)

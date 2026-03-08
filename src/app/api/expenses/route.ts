@@ -1,6 +1,8 @@
 import { sql } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/expenses?phase=A&limit=50
 export async function GET(req: NextRequest) {
   const phase = req.nextUrl.searchParams.get("phase");

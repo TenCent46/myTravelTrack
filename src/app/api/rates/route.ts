@@ -1,6 +1,8 @@
 import { sql } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/rates
 export async function GET() {
   const rows = await sql`SELECT * FROM exchange_rates ORDER BY currency`;
