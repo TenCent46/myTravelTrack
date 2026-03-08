@@ -103,7 +103,7 @@ export default function Dashboard() {
           const actual = phaseActuals[ph.id] || 0;
           const momAct = momPhaseActuals[ph.id] || 0;
           return (
-            <div key={ph.id} className="bg-white rounded-2xl shadow-md p-5">
+            <a key={ph.id} href={`/phase/${ph.id}`} className="bg-white rounded-2xl shadow-md p-5 block hover:shadow-lg transition cursor-pointer">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xl">{ph.emoji}</span>
                 <div>
@@ -122,7 +122,7 @@ export default function Dashboard() {
               {momAct !== 0 && (
                 <p className="text-xs text-purple-600 mt-2">母 {yen(momAct)}</p>
               )}
-            </div>
+            </a>
           );
         })}
       </div>

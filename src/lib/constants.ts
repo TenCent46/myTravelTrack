@@ -23,6 +23,9 @@ export const CATEGORIES = [
   { id: "航空券",    icon: "✈️", color: "#2D6A8A" },
   { id: "予備費",    icon: "💰", color: "#F59E0B" },
   { id: "日用品",    icon: "🧴", color: "#6B7280" },
+  { id: "損失",      icon: "💸", color: "#DC2626" },
+  { id: "奨学金",    icon: "🎓", color: "#059669" },
+  { id: "帰国旅行",  icon: "🌎", color: "#1C7293" },
   { id: "その他",    icon: "📦", color: "#9CA3AF" },
 ] as const;
 
