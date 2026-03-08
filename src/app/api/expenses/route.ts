@@ -24,6 +24,20 @@ export async function POST(req: NextRequest) {
   return NextResponse.json((rows as any[])[0], { status: 201 });
 }
 
+// PUT /api/expenses
+export async function PUT(req: NextRequest) {
+  const body = await req.json();
+  const { id, expense_date, amount, currency, rate_used, amount_jpy, phase, category, payer, note } = body;
+  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  const rows = await sql`
+    UPDATE expenses SET
+      expense_date=${expense_date}, amount=${amount}, currency=${currency},
+      rate_used=${rate_used}, amount_jpy=${amount_jpy}, phase=${phase},
+      category=${category}, payer=${payer}, note=${note}
+    WHERE id=${id} RETURNING *`;
+  return NextResponse.json((rows as any[])[0]);
+}
+
 // DELETE /api/expenses?id=123
 export async function DELETE(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
