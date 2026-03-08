@@ -5,25 +5,23 @@ export const dynamic = "force-dynamic";
 
 // GET /api/summary — dashboard data
 export async function GET() {
-  // Phase+category summary of actual spending (Kenji only)
+  // Phase+category summary by payer
   const byPhaseCategory = await sql`
-    SELECT phase, category,
+    SELECT phase, category, payer,
            SUM(amount_jpy) AS actual_jpy,
            COUNT(*) AS count
     FROM expenses
-    WHERE payer = 'ケンジ'
-    GROUP BY phase, category
-    ORDER BY phase, category`;
+    GROUP BY phase, category, payer
+    ORDER BY phase, category, payer`;
 
-  // Phase totals (Kenji)
+  // Phase totals by payer
   const byPhase = await sql`
-    SELECT phase,
+    SELECT phase, payer,
            SUM(amount_jpy) AS actual_jpy,
            COUNT(*) AS count
     FROM expenses
-    WHERE payer = 'ケンジ'
-    GROUP BY phase
-    ORDER BY phase`;
+    GROUP BY phase, payer
+    ORDER BY phase, payer`;
 
   // Budget items grouped
   const budget = await sql`
@@ -40,16 +38,21 @@ export async function GET() {
     ORDER BY expense_date DESC, created_at DESC
     LIMIT 10`;
 
-  // Grand total Kenji
-  const grandTotal = await sql`
-    SELECT COALESCE(SUM(amount_jpy), 0) AS total
-    FROM expenses WHERE payer = 'ケンジ'`;
+  // Grand totals by payer
+  const totals = await sql`
+    SELECT payer, COALESCE(SUM(amount_jpy), 0) AS total
+    FROM expenses
+    GROUP BY payer`;
+
+  const kenjiTotal = Number((totals as any[]).find(t => t.payer === 'ケンジ')?.total ?? 0);
+  const momTotal = Number((totals as any[]).find(t => t.payer === '母')?.total ?? 0);
 
   return NextResponse.json({
     byPhaseCategory,
     byPhase,
     budget,
     recent,
-    kenjiTotal: Number((grandTotal as any[])[0].total),
+    kenjiTotal,
+    momTotal,
   });
 }
