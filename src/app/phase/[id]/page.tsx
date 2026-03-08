@@ -38,18 +38,22 @@ export default function PhasePage({ params }: { params: { id: string } }) {
   const itinerary = ITINERARIES[id];
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [budgetItems, setBudgetItems] = useState<BudgetItem[]>([]);
+  const [todos, setTodos] = useState<{ id: number; title: string; detail: string; priority: string; done: boolean }[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     try {
-      const [expRes, sumRes] = await Promise.all([
+      const [expRes, sumRes, todoRes] = await Promise.all([
         fetch(`/api/expenses?phase=${id}&limit=200`),
         fetch("/api/summary"),
+        fetch(`/api/todos?phase=${id}`),
       ]);
       const expData = await expRes.json();
       const sumData = await sumRes.json();
+      const todoData = await todoRes.json();
       setExpenses(expData);
       setBudgetItems(sumData.budget.filter((b: BudgetItem) => b.phase === id));
+      setTodos(todoData);
     } catch (e) {
       console.error(e);
     }
@@ -243,12 +247,22 @@ export default function PhasePage({ params }: { params: { id: string } }) {
       </div>
 
       {/* Todo items */}
-      {itinerary.todoItems.length > 0 && (
+      {todos.filter(t => !t.done).length > 0 && (
         <div className="bg-white rounded-2xl shadow-md p-5">
-          <h2 className="font-bold text-sm text-navy mb-4">未対応・要確認</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-sm text-navy">未対応・要確認 ({todos.filter(t => !t.done).length})</h2>
+            <a href="/todos" className="text-xs text-ocean hover:underline">全て見る &rarr;</a>
+          </div>
           <div className="space-y-2">
-            {itinerary.todoItems.map((todo, i) => (
-              <div key={i} className="flex items-start gap-2 py-1.5">
+            {todos.filter(t => !t.done).map((todo) => (
+              <div key={todo.id} className="flex items-start gap-2 py-1.5">
+                <button
+                  onClick={async () => {
+                    await fetch("/api/todos", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: todo.id, done: true }) });
+                    load();
+                  }}
+                  className="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-300 hover:border-green-500 flex-shrink-0 transition"
+                />
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full mt-0.5 flex-shrink-0 ${
                   todo.priority === "high" ? "bg-red-100 text-red-600" :
                   todo.priority === "mid" ? "bg-amber-100 text-amber-700" :
@@ -257,7 +271,7 @@ export default function PhasePage({ params }: { params: { id: string } }) {
                   {todo.priority === "high" ? "高" : todo.priority === "mid" ? "中" : "低"}
                 </span>
                 <div>
-                  <p className="text-sm font-medium">{todo.item}</p>
+                  <p className="text-sm font-medium">{todo.title}</p>
                   <p className="text-xs text-gray-400">{todo.detail}</p>
                 </div>
               </div>
