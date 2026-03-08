@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback, use } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { PHASES, CATEGORIES, BUDGET } from "@/lib/constants";
 import { ITINERARIES } from "@/lib/itinerary";
 
@@ -32,8 +32,8 @@ type BudgetItem = {
   payer: string;
 };
 
-export default function PhasePage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function PhasePage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const phase = PHASES.find((p) => p.id === id);
   const itinerary = ITINERARIES[id];
   const [expenses, setExpenses] = useState<Expense[]>([]);
