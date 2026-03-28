@@ -30,6 +30,7 @@ export const CATEGORIES = [
 ] as const;
 
 export const PHASES = [
+  { id: "P", name: "準備・出発前",   period: "〜3/10",       color: "#4B5563", emoji: "📦" },
   { id: "A", name: "春の旅行",      period: "3/10〜3/26",   color: "#1C5064", emoji: "✈️" },
   { id: "B", name: "シアトル留学",   period: "3/26〜6/12",   color: "#065A82", emoji: "📚" },
   { id: "C", name: "帰国旅行",      period: "6/12〜7/1",    color: "#1C7293", emoji: "🏠" },
@@ -43,7 +44,8 @@ export const BUDGET = {
   balance: 135_943,
   mom_total: 685_246,
   phases: {
-    A: { kenji: 283_582 },
+    P: { kenji: 64_800 },
+    A: { kenji: 218_782 },
     B: { kenji: 1_130_475, fixed: 340_395, var_cur: 790_080 },
     C: { kenji: 430_000 },
   },

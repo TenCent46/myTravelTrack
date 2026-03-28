@@ -22,6 +22,22 @@ export type PhaseItinerary = {
 };
 
 export const ITINERARIES: Record<string, PhaseItinerary> = {
+  P: {
+    id: "P",
+    title: "準備・出発前",
+    period: "〜3/10",
+    days: 0,
+    route: "日本（出発準備）",
+    items: [
+      { date: "1月", city: "日本", detail: "J-1ビザ申請料（MRV fee）$185 支払い", status: "confirmed" },
+      { date: "1月", city: "日本", detail: "SEVIS I-901費 $220 支払い", status: "confirmed" },
+      { date: "2月", city: "日本", detail: "ビザ面接・取得", status: "confirmed" },
+      { date: "2月", city: "日本", detail: "航空券手配（母担当）", status: "confirmed" },
+      { date: "2-3月", city: "日本", detail: "航空券変更対応・損失確定", status: "confirmed" },
+      { date: "3月上旬", city: "日本", detail: "宿泊予約・旅程最終確認", status: "confirmed" },
+    ],
+    todoItems: [],
+  },
   A: {
     id: "A",
     title: "春の旅行",

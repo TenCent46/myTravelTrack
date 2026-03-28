@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
             <div className="flex gap-3 text-sm items-center">
               <a href="/" className="hover:text-amber-300 transition">TOP</a>
+              <a href="/phase/P" className="hover:text-amber-300 transition">P</a>
               <a href="/phase/A" className="hover:text-amber-300 transition">A</a>
               <a href="/phase/B" className="hover:text-amber-300 transition">B</a>
               <a href="/phase/C" className="hover:text-amber-300 transition">C</a>

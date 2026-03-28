@@ -26,7 +26,8 @@ export default function AddExpense() {
   // Auto-detect phase from date
   useEffect(() => {
     const d = new Date(form.expense_date);
-    if (d < new Date("2026-03-26")) setForm((f) => ({ ...f, phase: "A" }));
+    if (d < new Date("2026-03-10")) setForm((f) => ({ ...f, phase: "P" }));
+    else if (d < new Date("2026-03-26")) setForm((f) => ({ ...f, phase: "A" }));
     else if (d < new Date("2026-06-12")) setForm((f) => ({ ...f, phase: "B" }));
     else setForm((f) => ({ ...f, phase: "C" }));
   }, [form.expense_date]);
