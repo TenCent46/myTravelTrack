@@ -22,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/phase/A" className="hover:text-amber-300 transition">A</a>
               <a href="/phase/B" className="hover:text-amber-300 transition">B</a>
               <a href="/phase/C" className="hover:text-amber-300 transition">C</a>
+              <a href="/memories" className="hover:text-amber-300 transition">思い出</a>
               <a href="/todos" className="hover:text-amber-300 transition">Todo</a>
               <a href="/manage" className="hover:text-amber-300 transition">管理</a>
               <a href="/add" className="bg-amber-500 hover:bg-amber-400 text-navy font-bold px-3 py-1 rounded-full transition">
